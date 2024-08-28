@@ -13,8 +13,8 @@ const CORPORA = [
 	"data/ks10.txt"
 ];
 
-const TEXT_FILES = ["data/ks02.txt", "data/ks07.txt"];
-const AUDIO_FILES = ["data/ks02.mp3", "data/ks07.mp3"];
+const RECORDINGS = ["data/ks02.mp3", "data/ks07.mp3"];
+const TRANSCRIPTS = ["data/ks02.txt", "data/ks07.txt"];
 
 const rowCorpus = (
 	await Promise.all(CORPORA.map(file => readFile(file, "utf-8")))
@@ -57,12 +57,12 @@ console.log(
 // Calculate actual speech rate
 
 const texts = (
-	await Promise.all(TEXT_FILES.map(file => readFile(file, "utf-8")))
+	await Promise.all(TRANSCRIPTS.map(file => readFile(file, "utf-8")))
 ).join("\n");
 
 const { totalCount } = getSyllableInformation(texts);
 
-const datas = await Promise.all(AUDIO_FILES.map(analyzeAudio));
+const datas = await Promise.all(RECORDINGS.map(analyzeAudio));
 
 const totalDuration = datas.reduce((acc, data) => acc + data.totalDuration, 0);
 const totalPauseDuration = datas.reduce(
